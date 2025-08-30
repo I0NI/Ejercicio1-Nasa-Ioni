@@ -1,20 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "./screens/HomeScreen";
+import PhotoDetail from "./screens/PhotoDetail";
+import { useFonts, Orbitron_700Bold } from "@expo-google-fonts/orbitron";
+import { Text } from "react-native";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({ Orbitron_700Bold });
+  if (!fontsLoaded) {
+    return (
+      <Text style={{ color: "#fff", textAlign: "center", marginTop: 40 }}>
+        Cargando fuentes…
+      </Text>
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: { backgroundColor: "#0b1a2b" },
+          headerTintColor: "#fff",
+          headerTitleAlign: "center",
+          headerTitleStyle: { fontFamily: "Orbitron_700Bold" },
+        }}
+      >
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PhotoDetail"
+          component={PhotoDetail}
+          options={{ title: "Vista previa" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
